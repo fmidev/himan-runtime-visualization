@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>Himan runtime stats</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js" async></script>
+<script src="//cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="stats.js"></script>
+</head>
+<body>
+<label for="lpastdays">History length: </label>
+<input type="radio" name="pastdays" value="30" checked="checked">30 days</input>
+<input type="radio" name="pastdays" value="90">90 days</input>
+<input type="radio" name="pastdays" value="365">1 year</input>
+<br />
+<label for="lconfiguration">Configuration: </label>
+<table>
+<tr>
+<td>
+<input class='configbox' type="checkbox" name="configuration" value="ecmwf-global-hybrid">ecmwf-global-hybrid<br/>
+<input class='configbox' type="checkbox" name="configuration" value="ecmwf-europe">ecmwf-europe<br/>
+<input class='configbox' type="checkbox" name="configuration" value="ecmwf-ens-member.json">ecmwf-ens-member</br>
+<input class='configbox' type="checkbox" name="configuration" value="ecmwf-global-fractile.json">ecmwf-global-fractile</br>
+<input class='configbox' type="checkbox" name="configuration" value="hirlam">hirlam<br/>
+<input class='configbox' type="checkbox" name="configuration" value="hirlam-surface">hirlam-surface<br/>
+<input class='configbox' type="checkbox" name="configuration" value="meps-control">meps-control<br/>
+<input class='configbox' type="checkbox" name="configuration" value="meps-hybrid-control">meps-hybrid-control<br/>
+<input class='configbox' type="checkbox" name="configuration" value="meps-probability">meps-probability<br/>
+<input class='configbox' type="checkbox" name="configuration" value="mnwc">mnwc<br/>
+</td>
+</tr>
+</table>
+<br/>
+<label for="lplugin">Plugin: </label><br/>
+<table>
+<tr>
+<td>
+<!-- <input class='pluginbox' type="checkbox" name="plugin" value="plugin_average">average plugin<br/> -->
+<input class='pluginbox' type="checkbox" name="plugin" value="plugin_sum">whole configuration<br/>
+</td>
+</tr>
+<tr>
+<td>
+<input class='pluginbox' type="checkbox" name="plugin" value="auto_taf">auto_taf<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="cape">cape<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="dewpoint">dewpoint<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="density">density<br/>
+</td>
+<td>
+<input class='pluginbox' type="checkbox" name="plugin" value="gust">gust<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="hybrid_height">hybrid_height<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="hybrid_pressure">hybrid_pressure<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="icing">icing<br/>
+</td>
+<td>
+<input class='pluginbox' type="checkbox" name="plugin" value="luatool">luatool<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="ncl">ncl<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="pot">pot<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="preform_hybrid">preform_hybrid<br/>
+</td>
+<td>
+<input class='pluginbox' type="checkbox" name="plugin" value="probability">probability<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="relative_humidity">relative_humidity<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="split_sum">split_sum<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="stability">stability<br/>
+</td>
+<td>
+<input class='pluginbox' type="checkbox" name="plugin" value="turbulence">turbulence<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="visibility">visibility<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="vvms">vvms<br/>
+<input class='pluginbox' type="checkbox" name="plugin" value="windvector">windvector<br/>
+</td>
+<td>
+</td>
+</tr>
+</table>
+<label for="ldisplay_type">Display type: </label><br/>
+<table>
+<tr>
+<td>
+<input type="radio" name="display_type" value="confidence" checked="checked">Confidence intervals</input>
+</td>
+<td>
+<input type="radio" name="display_type" value="fractiles">Fractiles</input>
+</td>
+</tr>
+</table>
+<label for="lgrouping_type">Grouping type: </label><br/>
+<table>
+<tr>
+<td>
+<input type="radio" name="grouping_type" value="configuration" checked="checked">Configuration</input>
+</td>
+<td>
+<input type="radio" name="grouping_type" value="host">Host</input>
+</td>
+</tr>
+</table>
+
+<div id="myDiv" style="width:75%;">
+<canvas id="myChart"></canvas>
+</div>
+
+<script type="text/javascript">
+var radios = document.getElementsByName('pastdays');
+for (var i = 0; i < radios.length; i++) {
+  radios[i].onclick = function() {
+    fetchFromDatabase();
+  }
+}
+var plugins = document.getElementsByName('plugin');
+for (var i = 0; i < plugins.length; i++) {
+  plugins[i].onclick = function() {
+    fetchFromDatabase();
+  }
+}
+var configs = document.getElementsByName("configuration");
+for (var i = 0; i < configs.length; i++) {
+  configs[i].onclick = function() {
+    fetchFromDatabase();
+  }
+}
+var display_types = document.getElementsByName('display_type');
+for (var i = 0; i < display_types.length; i++) {
+  display_types[i].onclick = function() {
+    fetchFromDatabase();
+  }
+}
+var grouping_types = document.getElementsByName('grouping_type');
+for (var i = 0; i < display_types.length; i++) {
+  grouping_types[i].onclick = function() {
+    fetchFromDatabase();
+  }
+}
+
+window.onload = fetchFromDatabase();
+</script>
+</body>
+</html>
