@@ -269,7 +269,7 @@ function fetchFromDatabase(pastDays) {
     return;
   }
 
-  var url = "http://xxx:8081/himan_run_statistics?";
+  var url = "http://localhost:3000/himan_run_statistics?";
   
   url += "and=(finish_time.gt." + dateForPastDays(pastDays).toISOString() + ",or(";
 
